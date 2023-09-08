@@ -8,10 +8,10 @@ export const Carousel = () => {
           <Card title={"Javascript"} />
         </div>
         <div className="carousel-item">
-          <Card title={"React"} />
+          <Card title={"ReactJS"} />
         </div>
         <div className="carousel-item">
-          <Card title={"Node.JS"} />
+          <Card title={"NodeJS"} />
         </div>
         <div className="carousel-item">
           <Card title={"Machine Learning"} />

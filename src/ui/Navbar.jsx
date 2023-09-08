@@ -4,8 +4,11 @@ export const Navbar = () => {
   return (
     <nav className="navbar bg-base-100">
       <div className="flex-1">
-        <Link to={"/"} className="btn btn-ghost normal-case text-xl">
-          JobPrep
+        <Link to={"/"} className="btn btn-ghost normal-case text-xl m-4">
+          <span>
+            <img className={"h-10"} src={"/images/logo.png"} />{" "}
+          </span>
+          <span className={"font-bold  font-poppins"}>JOB PREP</span>
         </Link>
       </div>
       <div className="flex-none p-4">

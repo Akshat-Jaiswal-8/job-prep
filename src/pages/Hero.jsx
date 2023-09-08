@@ -1,13 +1,13 @@
-import { Navbar } from "./Navbar.jsx";
+import { Navbar } from "../ui/Navbar.jsx";
 import { BsArrowRight } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { supabase } from "../services/supabase.js";
 
 export const Hero = () => {
-  const session = supabase.auth.getSession().then((data) => console.log(data));
+  const session = supabase.auth.getSession();
   return (
     <>
-      {!session && <Navbar />}
+      {<Navbar />}
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content text-center">
           <div className="max-w-md">

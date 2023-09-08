@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-
+import { Themes } from "./Themes.jsx";
 export const Navbar = () => {
   return (
-    <div className="navbar bg-base-100">
+    <nav className="navbar bg-base-100">
       <div className="flex-1">
         <Link to={"/"} className="btn btn-ghost normal-case text-xl">
           JobPrep
@@ -12,7 +12,21 @@ export const Navbar = () => {
         <Link to={"/register"} className="btn btn-primary">
           Sign Up/Sign In
         </Link>
+        <ul className="menu menu-horizontal px-1">
+          <li>
+            <details>
+              <summary>Themes</summary>
+              <ul className="p-2 h-screen overflow-scroll bg-base-100">
+                {Themes.map((item, index) => (
+                  <li key={index}>
+                    <button>{item}</button>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          </li>
+        </ul>
       </div>
-    </div>
+    </nav>
   );
 };

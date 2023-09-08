@@ -1,4 +1,4 @@
-import { Hero } from "./ui/Hero.jsx";
+import { Hero } from "./pages/Hero.jsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Interview } from "./pages/Interview.jsx";
 import { Register } from "./pages/Register.jsx";

@@ -1,8 +1,7 @@
 import { AiFillStar } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { login as loginApi } from "../services/apiAuth.js";
-import { supabase } from "../services/supabase.js";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -12,13 +11,6 @@ export const Login = () => {
     await loginApi({ email, password });
   };
 
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const session = supabase.auth.session();
-    setUser(session?.user);
-    console.log(session);
-  }, [user]);
   return (
     <div className={"flex flex-col items-center justify-center"}>
       <h1 className={"text-5xl mt-16 mb-16 font-roboto"}>

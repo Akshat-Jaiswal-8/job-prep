@@ -9,8 +9,8 @@ export const Navbar = () => {
         </Link>
       </div>
       <div className="flex-none p-4">
-        <Link to={"/auth/register"} className="btn btn-primary">
-          Login
+        <Link to={"/register"} className="btn btn-primary">
+          Sign Up/Sign In
         </Link>
       </div>
     </div>

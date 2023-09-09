@@ -1,6 +1,7 @@
 // eslint-disable-next-line react/prop-types
 import { BsArrowRight } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 // eslint-disable-next-line react/prop-types
 export const Card = ({ title }) => {
@@ -10,7 +11,7 @@ export const Card = ({ title }) => {
       <div className={"flex flex-col items-center justify-center mt-16 p-4"}>
         <div className="card card-compact w-64 bg-base-100 shadow-xl">
           <figure>
-            <img className={"h-60 w-full"} src={image} />
+            <LazyLoadImage className={"h-60 w-full"} src={image} />
           </figure>
           <div className="card-body">
             <h2 className="card-title">{title}</h2>

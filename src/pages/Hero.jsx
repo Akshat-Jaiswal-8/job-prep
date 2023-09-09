@@ -2,6 +2,11 @@ import { Navbar } from "../ui/Navbar.jsx";
 import { Link } from "react-router-dom";
 import { supabase } from "../services/supabase.js";
 import { Footer } from "../ui/Footer.jsx";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+
+const {
+  data: { user },
+} = await supabase.auth.getUser();
 
 export const Hero = () => {
   const session = supabase.auth.getSession();
@@ -10,7 +15,10 @@ export const Hero = () => {
       <Navbar />
       <div className="hero min-h-screen  bg-base-200 ">
         <div className="container  hero-content flex-col lg:flex-row">
-          <img src="/hero.jpg" className="max-w-sm rounded-lg shadow-2xl " />
+          <LazyLoadImage
+            src="/hero.jpg"
+            className="max-w-sm rounded-lg shadow-2xl "
+          />
           <div className={"mx-16"}>
             <h1 className="text-5xl font-poppins font-bold">
               Welcome to JobPrep!

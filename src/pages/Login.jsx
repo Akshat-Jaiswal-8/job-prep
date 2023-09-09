@@ -2,6 +2,7 @@ import { AiFillStar } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { login as loginApi } from "../services/apiAuth.js";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -14,11 +15,14 @@ export const Login = () => {
   };
 
   return (
-    <div className={"flex flex-col items-center justify-center"}>
-      <h1 className={"text-5xl mt-16 mb-16 font-roboto"}>
-        <span className={"flex"}>
-          <AiFillStar />
-          JobPrep
+    <div className={"flex flex-col items-center justify-center "}>
+      <h1 className={"text-6xl mt-16 mb-16 font-roboto "}>
+        <span className={"flex gap-5"}>
+          <LazyLoadImage
+            className="max-w-sm rounded-lg shadow-2xl h-16 "
+            src={"/logo.png"}
+          />
+          <p className={"font-poppins"}>JOB PREP</p>
         </span>
       </h1>
       <div

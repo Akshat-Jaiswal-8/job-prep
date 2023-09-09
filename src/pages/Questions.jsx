@@ -1,6 +1,7 @@
 import { PiMicrophone } from "react-icons/pi";
 import { useState } from "react";
 import "regenerator-runtime/runtime";
+import Speech from "react-speech";
 
 import SpeechRecognition, {
   useSpeechRecognition,
@@ -35,6 +36,9 @@ export const Questions = ({ question, answers, dispatch }) => {
     dispatch({ type: "nextQuestion" });
   };
 
+  const handleFinish = () => {
+    setFinish(true);
+  };
   return (
     <>
       <h4
@@ -83,7 +87,7 @@ export const Questions = ({ question, answers, dispatch }) => {
       </div>
       <div className={"text-center"}>
         <button
-          onClick={() => setFinish(true)}
+          onClick={() => handleFinish()}
           className={"btn btn-primary text-center"}
         >
           Finish
@@ -92,6 +96,7 @@ export const Questions = ({ question, answers, dispatch }) => {
           <div className="textarea textarea-bordered h-[20rem] mt-20 mb-10 mx-20 text-2xl">
             <p className={"mb-2"}>Correct Answer - </p>
             <p className={"font-poppins"}>{answers}</p>
+            <Speech text={answers}></Speech>
           </div>
         ) : (
           ""

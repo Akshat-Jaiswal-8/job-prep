@@ -1,11 +1,10 @@
 import { Navbar } from "../ui/Navbar.jsx";
-import { BsArrowRight } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { supabase } from "../services/supabase.js";
 import { Footer } from "../ui/Footer.jsx";
 
 export const Hero = () => {
-  // const session = supabase.auth.getSession();
+  const session = supabase.auth.getSession();
   return (
     <>
       <Navbar />
@@ -26,9 +25,15 @@ export const Hero = () => {
               in interviews, land your dream job, and take your career to the
               next level.
             </p>
-            <Link to={"interview"} className="btn btn-primary">
-              Get Started
-            </Link>
+            {session ? (
+              <Link to={"interview"} className="btn btn-primary">
+                Get Started
+              </Link>
+            ) : (
+              <Link to={"register"} className="btn btn-primary">
+                Get Started
+              </Link>
+            )}
           </div>
         </div>
       </div>

@@ -1,29 +1,33 @@
 import { supabase } from "../services/supabase.js";
 import { useEffect, useReducer } from "react";
 import toast from "react-hot-toast";
+import { StartScreen } from "../ui/StartScreen.jsx";
+import { Questions } from "./Questions.jsx";
+import { Navbar } from "../ui/Navbar.jsx";
+import { useParams } from "react-router-dom";
+import { Finish } from "./Finish.jsx";
 
 const SECS_PER_QUESTION = 150;
 
 const initialState = {
   questions: [],
+  answers: [],
   status: "loading", // loading, error, ready, active, finished
   index: 0,
-  points: 0,
-  highscore: 0,
-  secondsRemaining: null,
 };
 
 function reducer(state, action) {
   switch (action.type) {
     case "dataReceived":
       return { ...state, questions: action.payload, status: "ready" };
+    case "answerReceived":
+      return { ...state, answers: action.payload, status: "ready" };
     case "dataFailed":
       return { ...state, status: "error" };
     case "start":
       return {
         ...state,
         status: "active",
-        secondsRemaining: SECS_PER_QUESTION,
       };
     case "nextQuestion": {
       state.index++;
@@ -31,22 +35,14 @@ function reducer(state, action) {
         return {
           ...state,
           status: "finished",
-          highscore:
-            state.points > state.highscore ? state.points : state.highscore,
         };
       }
       return {
         ...state,
         index: state.index,
-        secondsRemaining: SECS_PER_QUESTION,
       };
     }
-    // case "finish":
-    //     return {
-    //         ...state,
-    //         status: "finished",
-    //         highscore: state.points > state.highscore ? state.points : state.highscore
-    //     }
+
     case "restart":
       return { ...initialState, questions: state.questions, status: "ready" };
     case "tick": {
@@ -67,33 +63,33 @@ function reducer(state, action) {
   }
 }
 export default function QuestionPage() {
-  const [
-    { questions, status, index, points, highscore, secondsRemaining },
-    dispatch,
-  ] = useReducer(reducer, initialState);
-  const numQuestions = questions.length;
-  const maxPossiblePoints = questions.reduce(
-    (prev, curr) => prev + curr.points,
-    0
+  const { subject } = useParams();
+  const [{ questions, answers, status, index }, dispatch] = useReducer(
+    reducer,
+    initialState
   );
 
   useEffect(() => {
     const getQuestions = async () => {
       try {
-        let { data: react } = await supabase.from("react").select("*");
+        let { data: react } = await supabase.from(`${subject}`).select("*");
         const arr = react.map((row) => {
           return row.questions;
         });
+        const ansArr = react.map((row) => {
+          return row.answers;
+        });
         dispatch({ type: "dataReceived", payload: arr });
+        dispatch({ type: "answerReceived", payload: ansArr });
       } catch (error) {
         toast.error(error);
       }
     };
     getQuestions();
   }, []);
-
   return (
     <>
+      <Navbar />
       <div
         className={
           "my-16 mx-auto text-center text-5xl font-medium font-poppins"
@@ -104,21 +100,20 @@ export default function QuestionPage() {
             className={"w-16 h-16 rounded-full items-center"}
             src={"/images/Javascript.png"}
           />
-          THE JAVASCRIPT SHOWDOWN!
+          THE {subject.toUpperCase()} SHOWDOWN!
         </span>
       </div>
-      <div className={"text-center text-3xl font-poppins font-medium mb-4"}>
-        Welcome to Javascript interview Question!
-      </div>
-      <div
-        className={"text-center font-roboto font-normal text-lg m-auto mb-10"}
-      >
-        Challenging Javascript Interview Questions to test your Javascript
-        mastery.
-      </div>
-      <div className={"text-center"}>
-        <button className={"btn btn-primary rounded-full "}>Let's Start</button>
-      </div>
+      {status === "ready" && (
+        <StartScreen subject={subject} dispatch={dispatch} />
+      )}
+      {status === "active" && (
+        <Questions
+          answers={answers[index]}
+          question={questions[index]}
+          dispatch={dispatch}
+        />
+      )}
+      {status === "finished" && <Finish dispatch={dispatch} />}
     </>
   );
 }

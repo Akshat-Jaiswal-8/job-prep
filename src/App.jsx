@@ -5,7 +5,6 @@ import { Register } from "./pages/Register.jsx";
 import { Login } from "./pages/Login.jsx";
 import QuestionPage from "./pages/QuestionPage.jsx";
 import { ErrorPage } from "./pages/ErrorPage.jsx";
-
 export default function App() {
   return (
     <BrowserRouter>

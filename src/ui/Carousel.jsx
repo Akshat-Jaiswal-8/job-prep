@@ -14,7 +14,7 @@ export const Carousel = () => {
           <Card title={"NodeJS"} />
         </div>
         <div className="carousel-item">
-          <Card title={"Machine Learning"} />
+          <Card title={"Machine-Learning"} />
         </div>
       </div>
     </div>

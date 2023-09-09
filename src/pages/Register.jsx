@@ -1,4 +1,3 @@
-import { AiFillStar } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { signup } from "../services/apiAuth.js";
 import { useState } from "react";

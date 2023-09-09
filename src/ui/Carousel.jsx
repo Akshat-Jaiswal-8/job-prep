@@ -5,16 +5,16 @@ export const Carousel = () => {
     <div className={"p-16 m-auto  justify-center flex "}>
       <div className=" sm:carousel carousel-center max-w-xl p-4 space-x-4 bg-neutral rounded-box">
         <div className="carousel-item">
-          <Card title={"Javascript"} />
+          <Card title={"javascript"} />
         </div>
         <div className="carousel-item">
-          <Card title={"ReactJS"} />
+          <Card title={"reactjs"} />
         </div>
         <div className="carousel-item">
-          <Card title={"NodeJS"} />
+          <Card title={"nodejs"} />
         </div>
         <div className="carousel-item">
-          <Card title={"Machine-Learning"} />
+          <Card title={"machine-learning"} />
         </div>
       </div>
     </div>

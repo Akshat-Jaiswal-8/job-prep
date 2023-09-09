@@ -10,10 +10,7 @@ export const Hero = () => {
       <Navbar />
       <div className="hero min-h-screen  bg-base-200 ">
         <div className="container  hero-content flex-col lg:flex-row">
-          <img
-            src="public/hero.jpg"
-            className="max-w-sm rounded-lg shadow-2xl "
-          />
+          <img src="/hero.jpg" className="max-w-sm rounded-lg shadow-2xl " />
           <div className={"mx-16"}>
             <h1 className="text-5xl font-poppins font-bold">
               Welcome to JobPrep!

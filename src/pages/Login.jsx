@@ -1,14 +1,16 @@
 import { AiFillStar } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { login as loginApi } from "../services/apiAuth.js";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     await loginApi({ email, password });
+    navigate("/");
   };
 
   return (

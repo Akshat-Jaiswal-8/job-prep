@@ -68,6 +68,8 @@ export default function QuestionPage() {
     reducer,
     initialState
   );
+  const image_source = `/${subject}.png`;
+  console.log(image_source);
 
   useEffect(() => {
     const getQuestions = async () => {
@@ -98,7 +100,7 @@ export default function QuestionPage() {
         <span className={"flex gap-5 items-center  justify-center"}>
           <img
             className={"w-16 h-16 rounded-full items-center"}
-            src={"/images/Javascript.png"}
+            src={image_source}
           />
           THE {subject.toUpperCase()} SHOWDOWN!
         </span>

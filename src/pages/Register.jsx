@@ -11,7 +11,7 @@ export const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await signup({ fullName: name, email, password });
-    const session = supabase.auth.session();
+    const session = supabase.auth.getsession();
     if (session) toast.success("Registered successfully !");
     setName("");
     setEmail("");

@@ -69,7 +69,6 @@ export default function QuestionPage() {
     initialState
   );
   const image_source = `/${subject}.png`;
-  console.log(image_source);
 
   useEffect(() => {
     const getQuestions = async () => {

@@ -11,7 +11,7 @@ export const Hero = () => {
       <div className="hero min-h-screen  bg-base-200 ">
         <div className="container  hero-content flex-col lg:flex-row">
           <img
-            src="/images/hero.jpg"
+            src="/public/images/hero.jpg"
             className="max-w-sm rounded-lg shadow-2xl "
           />
           <div className={"mx-16"}>

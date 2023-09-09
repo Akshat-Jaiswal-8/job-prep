@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 // eslint-disable-next-line react/prop-types
 export const Card = ({ title }) => {
-  const image = `/public/${title}.png`;
+  const image = `public/${title}.png`;
   return (
     <>
       <div className={"flex flex-col items-center justify-center mt-16 p-4"}>

@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
+import { supabase } from "../services/supabase.js";
+
+const {
+  data: { user },
+} = await supabase.auth.getUser();
 
 export const Navbar = () => {
   const Themes = ["light", "dark", "cupcake", "forest"];
@@ -25,9 +30,18 @@ export const Navbar = () => {
         </Link>
       </div>
       <div className="flex-none p-4">
-        <Link to={"/register"} className="btn btn-primary">
-          Sign Up/Sign In
-        </Link>
+        {user ? (
+          <button
+            className="btn btn-primary"
+            onClick={async () => await supabase.auth.signOut()}
+          >
+            Logout
+          </button>
+        ) : (
+          <Link to={"/register"} className="btn btn-primary">
+            Sign Up/Sign In
+          </Link>
+        )}
 
         <ul className="menu menu-horizontal px-1">
           <li>

@@ -5,17 +5,23 @@ import { Register } from "./pages/Register.jsx";
 import { Login } from "./pages/Login.jsx";
 import QuestionPage from "./pages/QuestionPage.jsx";
 import { ErrorPage } from "./pages/ErrorPage.jsx";
+import { themeContext } from "./context.js";
+import { useState } from "react";
+
 export default function App() {
+  const [theme, setTheme] = useState("dark");
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path={"/"} element={<Hero />}></Route>
-        <Route path={"register"} element={<Register />} />
-        <Route path={"login"} element={<Login />} />
-        <Route path={"interview"} element={<Interview />} />
-        <Route path={"interview/:subject"} element={<QuestionPage />} />
-        <Route path={"*"} element={<ErrorPage />} />
-      </Routes>
-    </BrowserRouter>
+    <themeContext.Provider value={theme}>
+      <BrowserRouter>
+        <Routes>
+          <Route path={"/"} element={<Hero />}></Route>
+          <Route path={"register"} element={<Register />} />
+          <Route path={"login"} element={<Login />} />
+          <Route path={"interview"} element={<Interview />} />
+          <Route path={"interview/:subject"} element={<QuestionPage />} />
+          <Route path={"*"} element={<ErrorPage />} />
+        </Routes>
+      </BrowserRouter>
+    </themeContext.Provider>
   );
 }

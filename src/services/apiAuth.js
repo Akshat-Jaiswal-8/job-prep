@@ -6,8 +6,9 @@ export async function signup({ fullName, email, password }) {
     email,
     password,
   });
-  if (error) throw new Error(error.message);
-  console.log(data);
+  if (error) {
+    alert(error.message);
+  }
   return data;
 }
 
@@ -16,6 +17,13 @@ export async function login({ email, password }) {
     email,
     password,
   });
-  if (error) throw new Error(error.message);
-  return data;
+
+  return { data };
+}
+
+export async function signInWithGitHub() {
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "github",
+  });
+  return { data };
 }

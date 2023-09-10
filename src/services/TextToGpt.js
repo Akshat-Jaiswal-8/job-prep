@@ -1,7 +1,7 @@
 import axios from "axios";
 import toast from "react-hot-toast";
 
-const apiKey = "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";
+const apiKey = import.meta.env.VITE_REACT_APP_GPT_API_KEY;
 
 export default async function checkAnswer({ question, answer }) {
   const message = `Q: ${question}\nA: ${answer}\nRate this answer on a scale of 1 to 5:`;
@@ -41,14 +41,4 @@ export default async function checkAnswer({ question, answer }) {
         error.response ? error.response.data : error.message
       );
     });
-
-  // Ask the user to enter a question and answer
-
-  // rl.question("Enter a question: ", (question) => {
-  //   rl.question("Enter an answer: ", (answer) => {
-  //     // Compose a message for the API
-  //
-  //
-  //     // Close the readline interface
-  //     rl.close();
 }

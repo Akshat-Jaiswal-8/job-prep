@@ -1,39 +1,66 @@
-import { Link } from "react-router-dom";
-import { signup } from "../services/apiAuth.js";
-import { useState } from "react";
-import toast from "react-hot-toast";
-import { supabase } from "../services/supabase.js";
+import { Link, useNavigate } from "react-router-dom";
+import { signInWithGitHub, signup } from "../services/apiAuth.js";
+import { useContext, useState } from "react";
+import { BsGithub } from "react-icons/bs";
+import { themeContext } from "../context.js";
 
 export const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const [theme, setTheme] = useContext(themeContext);
+
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await signup({ fullName: name, email, password });
-    const session = supabase.auth.getsession();
-    if (session) toast.success("Registered successfully !");
+    const { data } = await signup({ fullName: name, email, password });
+
+    if (data) {
+      alert("Registered successfully");
+      navigate("/");
+    }
     setName("");
     setEmail("");
     setPassword("");
   };
 
+  const handleGithubRegister = async () => {
+    const { data } = await signInWithGitHub();
+    if (data) {
+      alert("Registered successfully");
+      navigate("/");
+    }
+    s;
+  };
+
   return (
-    <div className={"flex flex-col items-center justify-center"}>
+    <div className={"flex flex-col items-center  justify-center"}>
       <h1 className={"text-5xl mt-16 mb-16 font-roboto"}>
         <span className={"flex gap-5"}>
-          <img className={"h-12 "} src={"images/logo.png"} />
-          <span className={"font-poppins font-bold text-6xlxl"}>JobPrep</span>
+          <img
+            alt={"logo"}
+            className={"h-16  rounded-full"}
+            src={"/logo.png"}
+          />
+          <Link
+            to={"/"}
+            className={
+              "font-poppins font-bold text-6xl hover:duration-400 transition-all"
+            }
+          >
+            JobPrep
+          </Link>
         </span>
       </h1>
       <div
         className={
-          "max-w-2xl p-2 border flex border-slate-700 container  rounded-lg"
+          "max-w-2xl p-2 border flex border-slate-700 container mb-6 rounded-lg"
         }
       >
-        <div className="p-6 space-y-4 m-auto md:space-y-6 sm:p-8">
-          <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-            Sign up
+        <div className="p-6 space-y-4 m-auto  md:space-y-6 sm:p-8">
+          <h1 className="text-xl font-bold font-poppins leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+            Sign up for a new account
           </h1>
           <form onSubmit={handleSubmit}>
             <div className={"flex flex-col gap-2 mb-3"}>
@@ -60,7 +87,7 @@ export const Register = () => {
                 className="input input-bordered w-full max-w-xs"
               />
             </div>
-            <div className={"flex flex-col gap-2 mb-4"}>
+            <div className={"flex flex-col gap-2 mb-6"}>
               <label>Password</label>
               <input
                 type="password"
@@ -73,14 +100,27 @@ export const Register = () => {
               />
             </div>
             <div className={"flex "}></div>
-            <button className={" btn btn-primary mx-2 "}>Submit</button>
-            {/* eslint-disable-next-line react/no-unescaped-entities */}
-            <Link className={"text-sm"} to={"/login"}>
-              Already have an account ?
-            </Link>
+            <button className={" btn btn-accent btn-outline mx-1  "}>
+              Submit
+            </button>
+            <div
+              onClick={handleGithubRegister}
+              className={"mx-6 btn btn-outline"}
+            >
+              <BsGithub />
+              Sign in with github
+            </div>
           </form>
         </div>
       </div>
+      <Link
+        className={`text-sm  ${
+          theme === "light" ? "hover:text-black" : "hover:text-white"
+        } transition-all   `}
+        to={"/login"}
+      >
+        Already have an account ?
+      </Link>
     </div>
   );
 };

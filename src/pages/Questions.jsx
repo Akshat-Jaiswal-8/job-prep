@@ -24,8 +24,8 @@ import { data } from "autoprefixer";
 
 // eslint-disable-next-line react/prop-types
 export const Questions = ({ question, answers, dispatch }) => {
-  const [textToCopy, setTextToCopy] = useState();
   const [rating, setRating] = useState(0);
+  const [answerText, setAnswerText] = useState("");
 
   const { transcript, browserSupportsSpeechRecognition } =
     useSpeechRecognition();
@@ -51,6 +51,7 @@ export const Questions = ({ question, answers, dispatch }) => {
     setFinish(false);
     dispatch({ type: "nextQuestion" });
     setRating(0);
+    setAnswerText("");
   };
 
   const handleFinish = async () => {
@@ -116,12 +117,9 @@ export const Questions = ({ question, answers, dispatch }) => {
           Next
         </button>
       </div>
-      <div
-        className="textarea textarea-bordered h-[20rem] mt-20 mb-10 mx-20 text-2xl"
-        onClick={() => setTextToCopy(transcript)}
-      >
+      <div className="textarea textarea-bordered h-[20rem] mt-20 mb-10 mx-20 text-2xl">
         <p className={"mb-2"}>Your Answer - </p>
-        <p className={"font-poppins"}>{transcript}</p>
+        <p className={"font-poppins"}>{setAnswerText(transcript)}</p>
       </div>
       <div className={"text-center"}>
         <button

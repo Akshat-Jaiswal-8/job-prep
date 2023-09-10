@@ -25,7 +25,6 @@ export const Login = () => {
     const { data } = await signInWithGitHub();
     if (data) {
       alert("Logged in successfully");
-      // navigate("/");
     }
   };
   return (

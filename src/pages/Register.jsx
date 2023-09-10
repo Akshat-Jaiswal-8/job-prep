@@ -15,10 +15,8 @@ export const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { data } = await signup({ fullName: name, email, password });
-
     if (data) {
       alert("Registered successfully");
-      navigate("/");
     }
     setName("");
     setEmail("");
@@ -29,9 +27,7 @@ export const Register = () => {
     const { data } = await signInWithGitHub();
     if (data) {
       alert("Registered successfully");
-      navigate("/");
     }
-    s;
   };
 
   return (

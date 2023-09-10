@@ -4,11 +4,13 @@ import { Footer } from "../ui/Footer.jsx";
 import { BsArrowRight } from "react-icons/bs";
 import { Link } from "react-router-dom";
 
-const {
-  data: { user },
-} = await supabase.auth.getUser();
-
 export const Hero = () => {
+  async function getUser() {
+    const { data } = await supabase.auth.getUser();
+    const user = await data;
+  }
+  const user = getUser().then();
+
   return (
     <>
       <Navbar />
@@ -41,5 +43,3 @@ export const Hero = () => {
     </>
   );
 };
-// Want to prepare yourself for the next interview ? Then get ready
-// to face some challenging questions !

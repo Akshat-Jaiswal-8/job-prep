@@ -2,7 +2,6 @@ import { PiMicrophone } from "react-icons/pi";
 import { useState } from "react";
 import "regenerator-runtime/runtime";
 import Speech from "react-speech";
-import { ToastContainer } from "react-toastify";
 const showSuccessToast = (msg) => {
   toast.success(msg || "Compiled Successfully", {
     position: "top-right",
@@ -69,17 +68,6 @@ export const Questions = ({ question, answers, dispatch }) => {
   console.log();
   return (
     <>
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
       <h4
         className={
           " border-b-2 border-dashed border-gray-600 mx-40  text-3xl p-3 text-center mb-16"

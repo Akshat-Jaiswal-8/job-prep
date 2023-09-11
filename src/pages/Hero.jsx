@@ -1,16 +1,22 @@
 import { Navbar } from "../ui/Navbar.jsx";
-import { supabase } from "../services/supabase.js";
 import { Footer } from "../ui/Footer.jsx";
 import { BsArrowRight } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { supabase } from "../services/supabase.js";
 
 export const Hero = () => {
-  async function getUser() {
-    const { data } = await supabase.auth.getUser();
-    const user = await data;
-  }
-  const user = getUser().then();
+  const [user, setUser] = useState(false);
 
+  useEffect(() => {
+    (async () => {
+      const { data: user } = await supabase.auth.getUser();
+      if (user.user == null) setUser(false);
+      else setUser(true);
+    })();
+  }, []);
+
+  console.log(user);
   return (
     <>
       <Navbar />
@@ -27,7 +33,7 @@ export const Hero = () => {
               in interviews, land your dream job, and take your career to the
               next level.
             </p>
-            {user == null ? (
+            {user === false ? (
               <Link to={"/register"} className="btn btn-accent">
                 Sign Up <BsArrowRight />
               </Link>

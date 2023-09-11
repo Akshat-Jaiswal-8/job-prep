@@ -6,7 +6,6 @@ import { Questions } from "./Questions.jsx";
 import { Navbar } from "../ui/Navbar.jsx";
 import { useParams } from "react-router-dom";
 import { Finish } from "./Finish.jsx";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const SECS_PER_QUESTION = 150;
 
@@ -98,7 +97,8 @@ export default function QuestionPage() {
         }
       >
         <span className={"flex gap-5 items-center  justify-center"}>
-          <LazyLoadImage
+          <img
+            alt={"subject image"}
             className={"w-16 h-16 rounded-full items-center"}
             src={image_source}
           />

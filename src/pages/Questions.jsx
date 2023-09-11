@@ -2,24 +2,11 @@ import { PiMicrophone } from "react-icons/pi";
 import { useState } from "react";
 import "regenerator-runtime/runtime";
 import Speech from "react-speech";
-const showSuccessToast = (msg) => {
-  toast.success(msg || "Compiled Successfully", {
-    position: "top-right",
-    autoClose: 2000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "light",
-  });
-};
+
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 import checkAnswer from "../services/TextToGpt.js";
-import toast from "react-hot-toast";
-import { data } from "autoprefixer";
 
 // eslint-disable-next-line react/prop-types
 export const Questions = ({ question, answers, dispatch }) => {

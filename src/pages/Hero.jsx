@@ -16,7 +16,6 @@ export const Hero = () => {
     })();
   }, []);
 
-  console.log(user);
   return (
     <>
       <Navbar />

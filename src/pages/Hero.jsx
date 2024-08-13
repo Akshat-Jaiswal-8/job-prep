@@ -19,7 +19,7 @@ export const Hero = () => {
   return (
     <>
       <Navbar />
-      <div className="flex items-center flex-col pt-40 min-h-[81.5vh] bg-base-200">
+      <div className="flex items-center flex-col pt-20 min-h-[81.5vh] bg-base-200">
         <div className=" text-center">
           <div>
             <h1 className="text-8xl m-auto w-full mb-8 text-accent font-bold">

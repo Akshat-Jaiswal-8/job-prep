@@ -1,119 +1,109 @@
-import { PiMicrophone } from "react-icons/pi";
-import { useState } from "react";
+import {PiMicrophone} from "react-icons/pi";
+import {useState, useEffect} from "react";
 import "regenerator-runtime/runtime";
-import Speech from "react-speech";
-
-import SpeechRecognition, {
-  useSpeechRecognition,
-} from "react-speech-recognition";
+import SpeechRecognition, {useSpeechRecognition} from "react-speech-recognition";
 import checkAnswer from "../services/TextToGpt.js";
+import axios from "axios";
 
-// eslint-disable-next-line react/prop-types
-export const Questions = ({ question, answers, dispatch }) => {
-  const [rating, setRating] = useState(0);
-  const [answerText, setAnswerText] = useState("");
+export const Questions = ({question, answers, dispatch}) => {
+    const [answerText, setAnswerText] = useState("");
+    const [start, setStart] = useState(false);
+    const [finish, setFinish] = useState(false);
+    const [audio, setAudio] = useState(null);
 
-  const { transcript, browserSupportsSpeechRecognition } =
-    useSpeechRecognition();
+    const {transcript, browserSupportsSpeechRecognition, resetTranscript} = useSpeechRecognition();
 
-  if (!browserSupportsSpeechRecognition) {
-    return null;
-  }
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [start, setStart] = useState(false);
+    useEffect(() => {
+        setAnswerText(transcript);
+    }, [transcript]);
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [finish, setFinish] = useState(false);
-  const handleStop = () => {
-    setStart(false);
-    SpeechRecognition.stopListening();
-  };
-  const handleStart = () => {
-    SpeechRecognition.startListening({ continuous: true, language: "en-IN" });
-    setStart(true);
-  };
+    if (!browserSupportsSpeechRecognition) {
+        return null;
+    }
 
-  const handleNext = () => {
-    setFinish(false);
-    dispatch({ type: "nextQuestion" });
-    setRating(0);
-    setAnswerText("");
-  };
+    const handleStop = () => {
+        setStart(false);
+        SpeechRecognition.stopListening();
+    };
 
-  const handleFinish = async () => {
-    setFinish(true);
-    const rating = await checkAnswer({ question, answers });
-    setRating(rating);
-    setTimeout(() => {
-      alert(rating);
-    }, 3000);
+    const handleStart = () => {
+        SpeechRecognition.startListening({continuous: true, language: "en-IN"});
+        setStart(true);
+    };
 
-    // Assuming showSuccessToast returns a Promise (if it's asynchronous)
-    await showSuccessToast(`Rating is ${rating} `);
-  };
-
-  console.log();
-  return (
-    <>
-      <h4
-        className={
-          " border-b-2 border-dashed border-gray-600 mx-40  text-3xl p-3 text-center mb-16"
+    const handleNext = () => {
+        setFinish(false);
+        if (audio) {
+            audio.pause();
+            audio.currentTime = 0;
         }
-      >
-        {question}
-      </h4>
+        dispatch({type: "nextQuestion"});
+        setAnswerText("");
+        resetTranscript();
+    };
 
-      <div className={"text-center  mb-16"}>
-        {start ? (
-          <button
-            onClick={() => {
-              handleStop();
-            }}
-            className={"btn btn-primary text-center"}
-          >
-            Stop <PiMicrophone />
-          </button>
-        ) : (
-          <button
-            className={"btn btn-primary text-center"}
-            onClick={() => {
-              handleStart();
-            }}
-          >
-            Start <PiMicrophone />
-          </button>
-        )}
+    const handleFinish = async () => {
+        setFinish(true);
+        await checkAnswer({question, answers});
+        try {
+            const response = await axios({
+                method: 'post',
+                url: 'http://localhost:8000/synthesize',
+                data: {text: answers},
+                responseType: 'blob',
+            });
 
-        <button
-          className={"btn btn-primary btn-outline m-4"}
-          onClick={() => handleNext()}
-          disabled={!finish}
-        >
-          Next
-        </button>
-      </div>
-      <div className="textarea textarea-bordered h-[20rem] mt-20 mb-10 mx-20 text-2xl">
-        <p className={"mb-2"}>Your Answer - </p>
-        <p className={"font-poppins"}>{setAnswerText(transcript)}</p>
-      </div>
-      <div className={"text-center"}>
-        <button
-          onClick={() => handleFinish()}
-          className={"btn btn-primary text-center"}
-        >
-          Finish
-        </button>
+            const audioBlob = response.data;
+            const audioUrl = URL.createObjectURL(audioBlob);
+            const newAudio = new Audio(audioUrl);
+            setAudio(newAudio);
+            newAudio.play();
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
 
-        {finish ? (
-          <div className="textarea textarea-bordered h-[20rem] mt-20 mb-10 mx-20 text-2xl">
-            <p className={"mb-2"}>Correct Answer - </p>
-            <p className={"font-poppins"}>{answers}</p>
-            <Speech text={answers}></Speech>
-          </div>
-        ) : (
-          ""
-        )}
-      </div>
-    </>
-  );
+    return (
+        <>
+            <h4 className="border-b-2 border-dashed border-gray-600 mx-40 text-3xl p-3 text-center mb-16">
+                {question}
+            </h4>
+
+            <div className="text-center mb-16">
+                {start ? (
+                    <button onClick={handleStop} className="btn btn-primary text-center">
+                        Stop <PiMicrophone/>
+                    </button>
+                ) : (
+                    <button onClick={handleStart} className="btn btn-primary text-center">
+                        Start <PiMicrophone/>
+                    </button>
+                )}
+
+                <button
+                    className="btn btn-primary btn-outline m-4"
+                    onClick={handleNext}
+                    disabled={!finish}
+                >
+                    Next
+                </button>
+            </div>
+            <div className="textarea textarea-bordered h-[20rem] mt-20 mb-10 mx-20 text-2xl">
+                <p className="mb-2">Your Answer - </p>
+                <p className="font-poppins">{answerText}</p>
+            </div>
+            <div className="text-center">
+                <button onClick={handleFinish} className="btn btn-primary text-center mb-20">
+                    Finish
+                </button>
+
+                {finish && (
+                    <div className="textarea textarea-bordered h-[20rem] mb-10 mx-20 text-2xl">
+                        <p className="mb-2">Correct Answer - </p>
+                        <p className="font-poppins">{answers}</p>
+                    </div>
+                )}
+            </div>
+        </>
+    );
 };

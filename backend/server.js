@@ -2,17 +2,17 @@ const express = require('express');
 const TextToSpeechV1 = require('ibm-watson/text-to-speech/v1');
 const {IamAuthenticator} = require("ibm-watson/auth");
 const cors = require('cors');
-
+const {configDotenv} = require("dotenv");
 const app = express();
 app.use(cors());
 app.use(express.json());
-
+configDotenv()
 
 const textToSpeech = new TextToSpeechV1({
     authenticator: new IamAuthenticator({
-        apikey: '5k6yub_cNB1vTyfzCw9bsoZ2Qp30M9TYSKxHiuS6Y0hK',
+        apikey: process.env.IBM_KEY,
     }),
-    serviceUrl: 'https://api.au-syd.text-to-speech.watson.cloud.ibm.com/instances/58e30916-115e-4684-8074-79492f803fe4',
+    serviceUrl: process.env.IBM_URL,
     disableSslVerification: true,
 });
 

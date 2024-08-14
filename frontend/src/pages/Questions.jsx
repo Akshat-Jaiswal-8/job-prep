@@ -48,7 +48,7 @@ export const Questions = ({question, answers, dispatch}) => {
         try {
             const response = await axios({
                 method: 'post',
-                url: 'https://job-prep.onrender.com:8000/synthesize',
+                url: 'https://job-prep.onrender.com/synthesize/synthesize',
                 data: {text: answers},
                 responseType: 'blob',
             });
